@@ -19,7 +19,7 @@ minetest.register_chatcommand("tmsg", {
 		removehud(minetest.get_player_by_name(plName))
 		-- generate message on players hud
 		generatehud(minetest.get_player_by_name(plName), message)
-		minetest.after(300, removehud, minetest.get_player_by_name(plName))
+		minetest.after(60, removehud, minetest.get_player_by_name(plName))
 	end
 })
 generatehud = function(player, msg)
