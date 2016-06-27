@@ -7,30 +7,23 @@ minetest.register_chatcommand("tmsg", {
 	privs = {server = true},
 
 	func = function(name, params)
-
 		local plName, message = params:match("(%S+)%s+(.+)")
-		
+		-- check for malformed command
 		if not plName or message == "" then
-		  return false, "incorrect usage!"
+		  return false, "incorrect usage! Use: /tmsg <player> <message>"
 		end
 		-- player online
-		if plName ~= ""
-		and minetest.get_player_by_name(plName) then
-
+		if plName ~= ""	and minetest.get_player_by_name(plName) then
 			name = plName
-
 		-- player not online
 		else
 			return false, "Player " .. plName .. " is not online!"
 		end
-		
 		-- check and remove prev player hud message
 		removehud(minetest.get_player_by_name(plName))
 		-- generate message on players hud
 		generatehud(minetest.get_player_by_name(plName), message)
 		minetest.after(60, removehud, minetest.get_player_by_name(plName))
-		
-
 	end
 })
 generatehud = function(player, msg)
@@ -40,7 +33,7 @@ generatehud = function(player, msg)
                     name = "player_hud:message",
                     position = {x=0.5, y=0.5},
 		    offset = {x=-100, y = 20},
-                    text = msg.." "..name.."!",
+                    text = msg,
                     scale = {x=100,y=100},
                     alignment = {x=0,y=0},
                     number = 0xFF0000,
