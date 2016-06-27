@@ -7,26 +7,37 @@ minetest.register_chatcommand("tmsg", {
 	privs = {server = true},
 
 	func = function(name, params)
+
 		local plName, message = params:match("(%S+)%s+(.+)")
+		
+		if not plName or message == "" then
+		  return false, "incorrect usage!"
+		end
 		-- player online
-		if plName ~= "" and minetest.get_player_by_name(plName) then
+		if plName ~= ""
+		and minetest.get_player_by_name(plName) then
+
 			name = plName
+
 		-- player not online
 		else
 			return false, "Player " .. plName .. " is not online!"
 		end
+		
 		-- check and remove prev player hud message
 		removehud(minetest.get_player_by_name(plName))
 		-- generate message on players hud
 		generatehud(minetest.get_player_by_name(plName), message)
-		minetest.after(60, removehud, minetest.get_player_by_name(plName))
+		minetest.after(300, removehud, minetest.get_player_by_name(plName))
+		
+
 	end
 })
 generatehud = function(player, msg)
             local name = player:get_player_name()
             player_hud.timed_msg[name] = player:hud_add({
                     hud_elem_type = "text",
-                    name = "player_hud:birthday",
+                    name = "player_hud:message",
                     position = {x=0.5, y=0.5},
 		    offset = {x=-100, y = 20},
                     text = msg.." "..name.."!",
