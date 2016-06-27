@@ -1,5 +1,5 @@
 # tmsg
-minetest mod that displays &lt;message> &lt;name>! to an online player
+minetest mod that displays a hud message to an online player
 
 Useage: type /tmsg <player> <message> to display <message> on the players HUD
 
